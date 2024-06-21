@@ -34,39 +34,10 @@ opentelemetry-bootstrap --action=install
 DJANGO_SETTINGS_MODULE=mysite.settings OTEL_SERVICE_NAME=mysite HYPERDX_API_KEY=<YOUR_KEY> opentelemetry-instrument gunicorn mysite.wsgi -c gunicorn.config.py --workers 2 --threads 2
 ```
 *specifying **DJANGO_SETTINGS_MODULE** is necessary for opentelemetry instrumentation to work*
-```
-
-# If want to run docker image of django app directly 
-```
-docker run --env \
-    --env OTEL_SERVICE_NAME=djangoApp \
-    --env DJANGO_SETTINGS_MODULE=mysite.settings \
-    --env HYPERDX_API_KEY=<YOUR_KEY> \
-    -p 8000:8000 \
-    -t hyperdx/sample-django:latest opentelemetry-instrument gunicorn mysite.wsgi -c gunicorn.config.py --workers 2 --threads 2 --bind 0.0.0.0:8000
-```
-
-# If want to use docker image of django app in docker-compose
-Add below service to your docker-compose
-```
-  django-app:
-    image: "hyperdx/sample-django:latest"
-    container_name: sample-django
-    command: opentelemetry-instrument gunicorn mysite.wsgi -c gunicorn.config.py --workers 2 --threads 2 --bind 0.0.0.0:8000
-    ports:
-      - "8000:8000"
-    environment:
-    - OTEL_SERVICE_NAME=djangoApp
-    - DJANGO_SETTINGS_MODULE=mysite.settings
-    - HYPERDX_API_KEY=<YOUR_KEY>
-```
 
 # Browsing the app and checking at HyperDX
 
 1. Visit `http://localhost:8000/admin` and create a question for poll
 2. Then visit the list of polls at `http://localhost:8000/polls/` and explore the polls
 3. The data should be visible now in HyperDX at `https://hyperdx.io/search`
-
-
-
 
