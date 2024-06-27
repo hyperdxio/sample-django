@@ -1,3 +1,8 @@
+from gevent import monkey
+
+monkey.patch_all(thread=False, ssl=False)
+
+
 from hyperdx.opentelemetry import configure_opentelemetry
 
 
